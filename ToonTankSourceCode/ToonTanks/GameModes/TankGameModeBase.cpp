@@ -56,17 +56,20 @@ void ATankGameModeBase::HandleGameStart()
 {
     GameStart();
     if (PlayerControllerRef)
-    {
+    {   
         PlayerControllerRef->SetPlayerEnabledState(false);
 
         FTimerHandle PlayerEnableHandle;
         FTimerDelegate PlayerEnableDelegate = FTimerDelegate::CreateUObject(PlayerControllerRef, &APlayerControllerBase::SetPlayerEnabledState, true);
 
-        GetWorldTimerManager().SetTimer(PlayerEnableHandle, PlayerEnableDelegate, StartDelay, false);
+        GetWorldTimerManager().SetTimer(PlayerEnableHandle, PlayerEnableDelegate, StartDelay + 3.f, false);
+        
     }
 }
 void ATankGameModeBase::HandleGameOver(bool PlayerWon)
 {
+    PlayerControllerRef->SetPlayerEnabledState(false);
+    PlayerTank->SetActorTickEnabled(false);
     GameOver(PlayerWon);
 }
 
